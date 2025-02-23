@@ -3,14 +3,22 @@
     <nav id="gallery-filter">
       <ul>
         <li>
-          <span data-filter="*" class="active" data-i18n="page.photos.all"></span>
+          <span
+            data-filter="*"
+            th:classappend="${#lists.isEmpty(param.group) ? 'active' : ''}"
+          >
+            <a th:href="@{/photos}" data-i18n="page.photos.all"></a>
+          </span>
         </li>
         <th:block th:each="group : ${photoGroups}">
           <li>
-            <span
-              th:data-filter="|.group-${#strings.trim(group.metadata.name)}|"
-              th:text="${group.spec.displayName}"
-            ></span>
+            <span th:classappend="${#lists.contains(param.group, group.metadata.name) ? 'active' : ''}">
+              <a
+                th:data-filter="|.group-${#strings.trim(group.metadata.name)}|"
+                th:href="@{|/photos?group=${group.metadata.name}|}"
+                th:text="${group.spec.displayName}"
+              ></a>
+            </span>
           </li>
         </th:block>
       </ul>

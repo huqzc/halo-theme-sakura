@@ -59,19 +59,6 @@ export default class Photos {
           }
         }
 
-        hrefElement.addEventListener("click", (event) => {
-          event.preventDefault();
-          if (hrefElement.classList.contains("active")) {
-            return;
-          }
-          galleryFilterbarItemsElement?.forEach((item) => {
-            item.classList.remove("active");
-          });
-          hrefElement.classList.add("active");
-          galleryLayout.arrange({
-            filter: filter,
-          });
-        });
       });
 
       const gridChangeElements = masonryContainerElement?.querySelectorAll("#grid-changer span");

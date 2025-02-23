@@ -26,9 +26,23 @@
       </nav>
     </div>
 
+    <div>
+      <a
+        th:if="${photos.hasPrevious()}"
+        th:href="@{${photos.prevUrl}}">
+        <span>上一页</span>
+      </a>
+      <span th:text="${photos.page}"></span>
+      <a
+        th:if="${photos.hasNext()}"
+        th:href="@{${photos.nextUrl}}">
+        <span>下一页</span>
+      </a>
+    </div>
+    
     <div class="photos-content fancybox-content loading">
       <div class="gallery masonry-gallery">
-        <th:block th:each="photo : ${photoFinder.listAll()}">
+        <th:block th:each="photo : ${photos.items}">
           <figure
             class="gallery-item"
             th:classappend="|group-${#strings.trim(photo.spec.groupName)} col-${theme.config.photos.masonry_column}|"
@@ -39,6 +53,10 @@
                 th:src="${#strings.isEmpty(photo.spec.cover) ? #theme.assets('/images/load/load.gif') : photo.spec.cover}"
                 th:alt="${photo.spec.displayName}"
                 th:data-src="${photo.spec.url}"
+                th:srcset="|${thumbnail.gen(photo.spec.url, 's')} 400w,
+                        ${thumbnail.gen(photo.spec.url, 'm')} 800w,
+                        ${thumbnail.gen(photo.spec.url, 'l')} 1200w|"
+                sizes="(max-width: 1200px) 100vw, 1200px"
                 height="500"
                 width="500"
               />
